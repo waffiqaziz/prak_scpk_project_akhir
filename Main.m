@@ -76,12 +76,7 @@ clear
         disp('| Nama Negara                                              | Skor Akhir | Kesimpulan        |')
         disp("+----------------------------------------------------------+------------+-------------------+");
         for i = 1:size(ahp, 1)
-            % rentang kesimpulan nilai yang digunakan dalam perhitungan
-                %   < 0.75     -> Kurang Direkomendasikan
-                % 0.74 – 0.84  -> Cukup Direkomendasikan
-                % 0.85 – 0.94  -> Direkomendasikan
-                %   >= 0.95    -> Sangat Direkomendasikan
-            
+
             if ahp(i) == 0
                 status = 'Tidak Berpotensi ';
             elseif ahp(i) < 0.25
