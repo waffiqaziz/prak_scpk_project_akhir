@@ -1,22 +1,24 @@
+% link dataset : https://www.kaggle.com/varpit94/latest-covid19-data-updated-till-22june2021
+
 %% clear terminal
 clc
 clear
 
-% read table kolom ppertama
-dataNamaNegara = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','A3:A239');
+%% read table kolom ppertama
+    dataNamaNegara = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','A3:A239');
 
-% ubah ke bentuk cell
-namaNegara = table2cell(dataNamaNegara);
+    % ubah ke bentuk cell
+    namaNegara = table2cell(dataNamaNegara);
 
-%read table kolom 3-7
-data = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','C3:G239')
+    %read table kolom 3-7
+    data = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','C3:G239')
 
-data = table2array(data);
+    data = table2array(data);
 
 
 % batas maksimal
-
-% normalisasi data
+    %--
+%% normalisasi data
     data(:,1) = data(:,1) / 30000000;
     data(:,2) = data(:,2) / 15000;
     data(:,3) = data(:,3) / 500000;
@@ -24,12 +26,10 @@ data = table2array(data);
     data(:,5) = data(:,5) / 40000;
 
 %% Tentukan relasi antar kriteria
-    % design 0.5 kali lebih penting daripada camera
-    % design 0.5 kali lebih penting daripada battery
-    % battery 0.25 kali lebih penting daripada camera
+    %--
 
 % Buat matriks dari relasi antar kriteria tersebut
-
+    %--
    
 %     relasiAntarKriteria = [ 1     3     5     5     9     1/5    5
 %                             0     1     5     5     7     1/3    7
@@ -100,10 +100,6 @@ data = table2array(data);
         end
         disp("+----------------------------------------------------------+------------+-------------------+");
     end
-    
-% referensi
-% modul praktikum
-% https://piptools.net/algoritma-fuzzy-ahp/
 
 
     
