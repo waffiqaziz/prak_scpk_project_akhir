@@ -94,6 +94,7 @@ clear
                 status = 'Danger           ';
             end
             
+            % save status into cell array
             hasilStatus{i} = status;
             
             disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
