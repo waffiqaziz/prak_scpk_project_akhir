@@ -1,8 +1,9 @@
 % link dataset : https://www.kaggle.com/varpit94/latest-covid19-data-updated-till-22june2021
-
+function hasil = MainFunction()
 %% clear terminal
 clc
 clear
+
 
 %% read table kolom ppertama
     dataNamaNegara = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','A3:A239');
@@ -11,13 +12,15 @@ clear
     namaNegara = table2cell(dataNamaNegara);
 
     %read table kolom 3-7
-    data = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','C3:G239')
-
+    data = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','C3:G239');
+    
+    %ubah ke bentuk array/matrix
     data = table2array(data);
 
 
 % batas maksimal
     %--
+    
 %% normalisasi data
     data(:,1) = data(:,1) / 30000000;
     data(:,2) = data(:,2) / 15000;
@@ -75,6 +78,8 @@ clear
         disp("+----------------------------------------------------------+------------+-------------------+");
         disp('| Nama Negara                                              | Skor Akhir | Kesimpulan        |')
         disp("+----------------------------------------------------------+------------+-------------------+");
+        
+
         for i = 1:size(ahp, 1)
 
             if ahp(i) == 0
@@ -88,14 +93,23 @@ clear
             else
                 status = 'Danger           ';
             end
-
+            
+            hasilStatus{i} = status;
+            
             disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
                  num2str(ahp(i)), blanks(11 - length(num2str(ahp(i)))), '| ', ...
                  char(status),' |'])
         end
         disp("+----------------------------------------------------------+------------+-------------------+");
     end
-
+    
+    %% bentuk table hasil
+        % reshape cell arrays from 1 x 237 to 237 x 1
+        hasilStatus = (reshape(hasilStatus,[237,1]));
+        
+        % merge array       
+        hasil = [namaNegara,hasilStatus];        
+end
 
     
     
