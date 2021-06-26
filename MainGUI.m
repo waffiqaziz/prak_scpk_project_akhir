@@ -22,7 +22,11 @@ function varargout = MainGUI(varargin)
 
 % Edit the above text to modify the response to help MainGUI
 
+<<<<<<< HEAD
 % Last Modified by GUIDE v2.5 26-Jun-2021 21:50:48
+=======
+% Last Modified by GUIDE v2.5 25-Jun-2021 05:57:33
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -63,6 +67,7 @@ guidata(hObject, handles);
 % uiwait(handles.figure1);
 
 %% Tampilkan dalam uitable
+<<<<<<< HEAD
 dataNamaNegara = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','A3:A239');
 
     % ubah ke bentuk cell
@@ -75,6 +80,9 @@ dataNamaNegara = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.
     data = table2cell(data);
 data=[namaNegara,data];
 set(handles.uitable1,'data',data);
+=======
+set(handles.uitable1,'data',MainFunction());
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417
 
 
 % --- Outputs from this function are returned to the command line.
@@ -86,6 +94,7 @@ function varargout = MainGUI_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
+<<<<<<< HEAD
 
 
 % --- Executes on button press in togglebutton1.
@@ -106,3 +115,5 @@ function togglebutton2_Callback(hObject, eventdata, handles)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton2
 set(handles.uitable2,'data',MainFunction(2));
+=======
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417

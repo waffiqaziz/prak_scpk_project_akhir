@@ -1,5 +1,13 @@
 % link dataset : https://www.kaggle.com/varpit94/latest-covid19-data-updated-till-22june2021
+<<<<<<< HEAD:MainFunction.m
 function hasil = MainFunction(pilih)
+
+=======
+function hasil = MainFunction()
+%% clear terminal
+clc
+clear
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417:Main.m
 
 
 %% read table kolom ppertama
@@ -76,6 +84,11 @@ function hasil = MainFunction(pilih)
 %         disp('| Nama Negara                                              | Skor Akhir | Kesimpulan        |')
 %         disp("+----------------------------------------------------------+------------+-------------------+");
         
+<<<<<<< HEAD:MainFunction.m
+=======
+
+        for i = 1:size(ahp, 1)
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417:Main.m
 
         for i = 1:size(ahp, 1)
             if ahp(i) == 0
@@ -125,30 +138,55 @@ function hasil = MainFunction(pilih)
         hasilStatus = hasilStatus(sortIdx); 
     end
     
+<<<<<<< HEAD:MainFunction.m
     if pilih==2
         % sort namaNegara
         [namaNegara,sortIdx] = sort(namaNegara);
+=======
+    %% bentuk table hasil
+        % sort ahp tertinggi
+        [ahp,sortIdx] = sort(ahp,'descend');
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417:Main.m
         
         % ubah ke format yang diperlukan
         tempAHP = table(ahp); % simpan dan ubah ke betuk tabel
         tempAHP = table2cell(tempAHP); % ubah kebentuk cell
         
+<<<<<<< HEAD:MainFunction.m
+=======
+        % reshape cell arrays from 1 x 237 to 237 x 1
+        hasilStatus = (reshape(hasilStatus,[237,1]));
+        
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417:Main.m
         % ubah format ahp
         fun = @(x) sprintf('%0.9f', x);
         longAHP = cellfun(fun, tempAHP, 'UniformOutput',0);
         
+<<<<<<< HEAD:MainFunction.m
         % sort ahp dan status berdasarkan index dari namaNegara
         longAHP = longAHP(sortIdx); 
         hasilStatus = hasilStatus(sortIdx); 
         
         
     end
+=======
+        % sort nama dan status berdasarkan index dari AHP
+        namaNegara = namaNegara(sortIdx); 
+        hasilStatus = hasilStatus(sortIdx); 
+        
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417:Main.m
         % merge array       
         hasilTemp = [namaNegara,longAHP,hasilStatus];   
 %         hasilTemp = cell2table(hasilTemp);
 
         % hapus baris pertama cell array
         hasilTemp([1],:) = [];
+<<<<<<< HEAD:MainFunction.m
+=======
+
+        hasil = hasilTemp;
+end
+>>>>>>> 9b62496abb7f15d577a2d8cf1392c4f8933e2417:Main.m
 
         hasil = hasilTemp;
 end
