@@ -96,6 +96,7 @@ clear
             
             % save status into cell array
             hasilStatus{i} = status;
+            tempAHP{i} = ahp(i);
             
             disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
                  num2str(ahp(i)), blanks(11 - length(num2str(ahp(i)))), '| ', ...
@@ -107,9 +108,14 @@ clear
     %% bentuk table hasil
         % reshape cell arrays from 1 x 237 to 237 x 1
         hasilStatus = (reshape(hasilStatus,[237,1]));
+        tempAHP = (reshape(tempAHP,[237,1]));
+        
+        % ubah format ahp
+        fun = @(x) sprintf('%0.9f', x);
+        longAHP = cellfun(fun, tempAHP, 'UniformOutput',0);
         
         % merge array       
-        hasil = [namaNegara,hasilStatus];        
+        hasil = [namaNegara,longAHP,hasilStatus];        
 end
 
     
