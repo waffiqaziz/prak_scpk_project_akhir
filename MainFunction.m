@@ -73,11 +73,11 @@ clear
 %         bobotAntarKriteria
         ahp = data * bobotAntarKriteria';
 
-        disp(" ")
-        disp('Hasil Perhitungan dengan metode Fuzzy AHP')
-        disp("+----------------------------------------------------------+------------+-------------------+");
-        disp('| Nama Negara                                              | Skor Akhir | Kesimpulan        |')
-        disp("+----------------------------------------------------------+------------+-------------------+");
+%         disp(" ")
+%         disp('Hasil Perhitungan dengan metode Fuzzy AHP')
+%         disp("+----------------------------------------------------------+------------+-------------------+");
+%         disp('| Nama Negara                                              | Skor Akhir | Kesimpulan        |')
+%         disp("+----------------------------------------------------------+------------+-------------------+");
         
 
         for i = 1:size(ahp, 1)
@@ -96,26 +96,41 @@ clear
             
             % save status into cell array
             hasilStatus{i} = status;
-            tempAHP{i} = ahp(i);
             
-            disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
-                 num2str(ahp(i)), blanks(11 - length(num2str(ahp(i)))), '| ', ...
-                 char(status),' |'])
+%             disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
+%                  num2str(ahp(i)), blanks(11 - length(num2str(ahp(i)))), '| ', ...
+%                  char(status),' |'])
         end
         disp("+----------------------------------------------------------+------------+-------------------+");
     end
     
     %% bentuk table hasil
+        % sort ahp tertinggi
+        [ahp,sortIdx] = sort(ahp,'descend');
+        
+        % ubah ke format yang diperlukan
+        tempAHP = table(ahp); % simpan dan ubah ke betuk tabel
+        tempAHP = table2cell(tempAHP); % ubah kebentuk cell
+        
         % reshape cell arrays from 1 x 237 to 237 x 1
         hasilStatus = (reshape(hasilStatus,[237,1]));
-        tempAHP = (reshape(tempAHP,[237,1]));
         
         % ubah format ahp
         fun = @(x) sprintf('%0.9f', x);
         longAHP = cellfun(fun, tempAHP, 'UniformOutput',0);
         
+        % sort nama dan status berdasarkan index dari AHP
+        namaNegara = namaNegara(sortIdx); 
+        hasilStatus = hasilStatus(sortIdx); 
+        
         % merge array       
-        hasil = [namaNegara,longAHP,hasilStatus];        
+        hasilTemp = [namaNegara,longAHP,hasilStatus];   
+%         hasilTemp = cell2table(hasilTemp);
+
+        % hapus baris pertama cell array
+        hasilTemp([1],:) = [];
+
+        hasil = hasilTemp;
 end
 
     
