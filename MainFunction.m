@@ -1,8 +1,6 @@
 % link dataset : https://www.kaggle.com/varpit94/latest-covid19-data-updated-till-22june2021
+function hasil = MainFunction(pilih)
 
-%% clear terminal
-clc
-clear
 
 %% read table kolom ppertama
     dataNamaNegara = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','A3:A239');
@@ -11,13 +9,15 @@ clear
     namaNegara = table2cell(dataNamaNegara);
 
     %read table kolom 3-7
-    data = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','C3:G239')
-
+    data = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','C3:G239');
+    
+    %ubah ke bentuk array/matrix
     data = table2array(data);
 
 
 % batas maksimal
     %--
+    
 %% normalisasi data
     data(:,1) = data(:,1) / 30000000;
     data(:,2) = data(:,2) / 15000;
@@ -70,13 +70,14 @@ clear
 %         bobotAntarKriteria
         ahp = data * bobotAntarKriteria';
 
-        disp(" ")
-        disp('Hasil Perhitungan dengan metode Fuzzy AHP')
-        disp("+----------------------------------------------------------+------------+-------------------+");
-        disp('| Nama Negara                                              | Skor Akhir | Kesimpulan        |')
-        disp("+----------------------------------------------------------+------------+-------------------+");
-        for i = 1:size(ahp, 1)
+%         disp(" ")
+%         disp('Hasil Perhitungan dengan metode Fuzzy AHP')
+%         disp("+----------------------------------------------------------+------------+-------------------+");
+%         disp('| Nama Negara                                              | Skor Akhir | Kesimpulan        |')
+%         disp("+----------------------------------------------------------+------------+-------------------+");
+        
 
+        for i = 1:size(ahp, 1)
             if ahp(i) == 0
                 status = 'Tidak Berpotensi ';
             elseif ahp(i) < 0.25
@@ -88,14 +89,66 @@ clear
             else
                 status = 'Danger           ';
             end
-
-            disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
-                 num2str(ahp(i)), blanks(11 - length(num2str(ahp(i)))), '| ', ...
-                 char(status),' |'])
+            
+            % save status into cell array
+            hasilStatus{i} = status;
+            
+%             disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
+%                  num2str(ahp(i)), blanks(11 - length(num2str(ahp(i)))), '| ', ...
+%                  char(status),' |'])
         end
-        disp("+----------------------------------------------------------+------------+-------------------+");
+%        disp("+----------------------------------------------------------+------------+-------------------+");
     end
-
-
+    % ubah ke format yang diperlukan
+        tempAHP = table(ahp); % simpan dan ubah ke betuk tabel
+        tempAHP = table2cell(tempAHP); % ubah kebentuk cell
+        
+        % reshape cell arrays from 1 x 237 to 237 x 1
+        hasilStatus = (reshape(hasilStatus,[237,1]));
+        
+        
+    %% bentuk table hasil
+    if pilih==1
+        % sort namaNegara
+        [ahp,sortIdx] = sort(ahp,'descend');
+        
+        % ubah ke format yang diperlukan
+        tempAHP = table(ahp); % simpan dan ubah ke betuk tabel
+        tempAHP = table2cell(tempAHP); % ubah kebentuk cell
+        
+        % ubah format ahp
+        fun = @(x) sprintf('%0.9f', x);
+        longAHP = cellfun(fun, tempAHP, 'UniformOutput',0);
+        
+        % sort ahp dan status berdasarkan index dari namaNegara
+        namaNegara = namaNegara(sortIdx); 
+        hasilStatus = hasilStatus(sortIdx); 
+    end
     
-    
+    if pilih==2
+        % sort namaNegara
+        [namaNegara,sortIdx] = sort(namaNegara);
+        
+        % ubah ke format yang diperlukan
+        tempAHP = table(ahp); % simpan dan ubah ke betuk tabel
+        tempAHP = table2cell(tempAHP); % ubah kebentuk cell
+        
+        % ubah format ahp
+        fun = @(x) sprintf('%0.9f', x);
+        longAHP = cellfun(fun, tempAHP, 'UniformOutput',0);
+        
+        % sort ahp dan status berdasarkan index dari namaNegara
+        longAHP = longAHP(sortIdx); 
+        hasilStatus = hasilStatus(sortIdx); 
+        
+        
+    end
+        % merge array       
+        hasilTemp = [namaNegara,longAHP,hasilStatus];   
+%         hasilTemp = cell2table(hasilTemp);
+
+        % hapus baris pertama cell array
+        hasilTemp([1],:) = [];
+
+        hasil = hasilTemp;
+end
