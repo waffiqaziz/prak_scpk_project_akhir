@@ -16,11 +16,11 @@ function hasil = MainFunction(pilih)
     %--
     
 %% normalisasi data
-    data(:,1) = data(:,1) / 30000000;
-    data(:,2) = data(:,2) / 15000;
+    data(:,1) = data(:,1) / 33000000;
+    data(:,2) = data(:,2) / 1700000;
     data(:,3) = data(:,3) / 500000;
     data(:,4) = data(:,4) / 200;
-    data(:,5) = data(:,5) / 40000;
+    data(:,5) = data(:,5) / 100000;
 
 %% Tentukan relasi antar kriteria
     %--
@@ -64,13 +64,16 @@ function hasil = MainFunction(pilih)
 
         % Hitung nilai skor akhir 
         ahp = data * bobotAntarKriteria';
-
+        
+%         UNCOMMENT jika ingin ditampilkan dalam command window
 %         disp(" ")
 %         disp('Hasil Perhitungan dengan metode Fuzzy AHP')
 %         disp("+----------------------------------------------------------+------------+-------------------+");
 %         disp('| Nama Negara                                              | Skor Akhir | Kesimpulan        |')
 %         disp("+----------------------------------------------------------+------------+-------------------+");
-        
+
+
+
         for i = 1:size(ahp, 1)
             if ahp(i) == 0
                 status = 'Tidak Berpotensi ';
@@ -87,7 +90,8 @@ function hasil = MainFunction(pilih)
             % save status into cell array
             hasilStatus{i} = status;
             
-%             disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
+%           UNCOMMENT jika ingin ditampilkan dalam command window
+%           disp(['| ', char(namaNegara(i)), blanks(57 - cellfun('length',namaNegara(i))), '| ', ... 
 %                  num2str(ahp(i)), blanks(11 - length(num2str(ahp(i)))), '| ', ...
 %                  char(status),' |'])
         end
@@ -117,9 +121,10 @@ function hasil = MainFunction(pilih)
         hasilTemp = [namaNegara,longAHP,hasilStatus];
         
         % hapus baris pertama cell array
-        hasilTemp((1),:) = [];
+%         hasilTemp((1),:) = [];
     elseif (pilih == 2)
-        % sort namaNegara
+        
+        % sort namaNegara A-Z
         [namaNegara,sortIdx] = sort(namaNegara);
         
         % ubah ke format yang diperlukan
@@ -127,15 +132,20 @@ function hasil = MainFunction(pilih)
         tempAHP = table2cell(tempAHP); % ubah kebentuk cell
         
         % ubah format AHP
-        longAHP = UbahFormat('%0.9f',tempAHP)
+        longAHP = UbahFormat('%0.9f',tempAHP);
               
         % sort AHP dan status berdasarkan index dari namaNegara
         longAHP = longAHP(sortIdx); 
         hasilStatus = hasilStatus(sortIdx); 
         
-        % merge array
+        % merge cell
         hasilTemp = [namaNegara,longAHP,hasilStatus];
+        
     end
+    
+    % menghapus row yang berisi data "Other"
+    row_to_delete = all( cellfun(@(C) ischar(C) && strcmp(C,'Other'), hasilTemp), 3);
+    hasilTemp(row_to_delete, :) = [];
     
     hasil = hasilTemp;
 end
