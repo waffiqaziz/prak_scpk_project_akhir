@@ -66,23 +66,15 @@ guidata(hObject, handles);
     % ambil data nama negara (kolom ke-1)
     dataNamaNegara = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','A3:A239');
 
-    % ambil data kolom ke-3
-    dataTotalKasus = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','C3:C239');
-    
-    % ambil data kolom ke-4
-    dataTotalKasusPerPopulation = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','D3:D239');
-    
-    % read table kolom 5-7
-    data = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','E3:G239');
-    
+    % ambil data kolom ke-3-7
+    data = readtable('WHO COVID-19 global table data June 22nd 2021 at 10.52.14 PM.csv','Range','C3:G239');
+   
     % ubah ke bentuk array/matrix
     dataNamaNegara = table2cell(dataNamaNegara);
-    dataTotalKasus = table2cell(dataTotalKasus);
-    dataTotalKasusPerPopulation = table2cell(dataTotalKasusPerPopulation);
     data = table2cell(data);
     
     % merge tabel
-    data=[dataNamaNegara,dataTotalKasus,dataTotalKasusPerPopulation,data];
+    data = [dataNamaNegara,data];
     
     % tampilkan pada uitable
     set(handles.uitable1,'data',data);
